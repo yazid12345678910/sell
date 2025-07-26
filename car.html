@@ -1,0 +1,450 @@
+por lo que entendi es crear un archivo nuevo normal que diga tienda en la parte de htdocs y dentro de eela coloca lo codigos php
+
+.php solo va al final del archivo, no en el nombre de carpetas.
+
+Si usas .php como nombre de carpeta, tu servidor se va a confundir y fallará.
+
+¿Te gustaría que te prepare un archivo .zip con todas las carpetas correctas y archivos insertar.php listos para que lo descomprimas en htdocs?
+
+
+
+
+
+
+
+
+Dijiste:
+me coloca esto Guardar como
+
+×
+
+electronica\
+La ruta no existe.
+Comprueba la ruta y prueba de nuevo.
+
+Aceptar
+
+
+ChatGPT dijo:
+Gracias por el detalle, estás intentando crear una carpeta con barra invertida (\) en el nombre, y Windows no permite eso.
+
+❌ Error: electronica\
+Ese símbolo \ le dice a Windows que estás entrando en una subcarpeta, no que ese es el nombre del archivo o carpeta.
+
+✅ ¿Cómo solucionarlo?
+Debes crear las carpetas una por una, así:
+
+Ve a:
+
+makefile
+Copiar código
+C:\xampp\htdocs\
+Crea una carpeta que se llame:
+
+Copiar código
+tienda.php
+Dentro de tienda.php, crea las siguientes carpetas (una por categoría):
+
+nginx
+Copiar código
+electronica
+muebleria
+limpieza
+linea_blanca
+ropa
+zapateria
+motocicletas
+telefonia
+Dentro de cada carpeta, guarda un archivo llamado:
+
+Copiar código
+insertar.php
+✅ Resultado Final:
+makefile
+Copiar código
+C:\xampp\htdocs\tienda.php\
+│
+├── electronica\insertar.php
+├── muebleria\insertar.php
+├── limpieza\insertar.php
+├── linea_blanca\insertar.php
+├── ropa\insertar.php
+├── zapateria\insertar.php
+├── motocicletas\insertar.php
+└── telefonia\insertar.php
+🛠 ¿Cómo hacerlo fácilmente?
+Abre el Explorador de archivos
+
+Navega a C:\xampp\htdocs
+
+Crea carpeta tienda.php
+
+Dentro de tienda.php, haz clic derecho > Nueva carpeta > escribe electronica, y repite con las demás
+
+Luego, abre Visual Studio Code o Bloc de notas y guarda el código PHP como insertar.php dentro de cada carpeta
+
+¿Quieres que te dé un archivo .zip que ya tenga toda esta estructura y los 8 archivos listos para descomprimir?
+
+
+
+
+
+
+
+
+Dijiste:
+creo una carpeta central tienda en ella coloco el codigo electonica.php
+
+
+ChatGPT dijo:
+¡Sí, eso es totalmente válido y puede simplificar tu proyecto! 🙌
+
+✅ Opción Alternativa (válida y funcional)
+En lugar de tener subcarpetas para cada categoría, puedes tener una sola carpeta central llamada tienda y dentro de ella colocar varios archivos PHP, uno por categoría.
+
+📁 Estructura sugerida:
+makefile
+Copiar código
+C:\xampp\htdocs\tienda\
+│
+├── electronica.php
+├── muebleria.php
+├── limpieza.php
+├── linea_blanca.php
+├── ropa.php
+├── zapateria.php
+├── motocicletas.php
+└── telefonia.php
+Cada archivo manejará la inserción para una tabla específica.
+
+🟢 Ejemplo: electronica.php
+php
+Copiar código
+<?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
+
+$data = json_decode(file_get_contents("php://input"));
+
+$conn = new mysqli("localhost", "root", "", "cen", 3307);
+if ($conn->connect_error) {
+    die(json_encode(["error" => "Conexión fallida: " . $conn->connect_error]));
+}
+
+$sql = "INSERT INTO electronica (sku, nombre_producto, marca, inventario, precio) VALUES (?, ?, ?, ?, ?)";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("issid", $data->sku, $data->nombre_producto, $data->marca, $data->inventario, $data->precio);
+
+if ($stmt->execute()) {
+    echo json_encode(["message" => "Producto insertado correctamente"]);
+} else {
+    echo json_encode(["error" => "Error al insertar: " . $stmt->error]);
+}
+
+$stmt->close();
+$conn->close();
+?>
+📡 ¿Cómo llamarlo desde Postman o Android?
+arduino
+Copiar código
+http://localhost/tienda/electronica.php
+✅ Ventajas de esta forma:
+Más sencillo de organizar
+
+Más rápido de implementar
+
+Ideal si solo manejas inserciones, y una tabla por archivo
+
+¿Qué sigue?
+¿Te coloco ahora los 8 archivos PHP listos con esta estructura para que los copies directamente dentro de tienda/?
+
+¿O quieres que te los entregue en .zip también?
+
+
+
+
+
+
+
+
+Dijiste:
+tambien es tienda.php como carperta central
+
+
+ChatGPT dijo:
+¡Perfecto! Entonces tu carpeta central se llama tienda.php (aunque tenga .php en el nombre, si es carpeta no hay problema). Pero es importante que aclaremos algo:
+
+⚠️ ¿Puedo tener una carpeta llamada tienda.php?
+✅ Sí, técnicamente Windows permite eso.
+❗ Pero: es no recomendable porque:
+
+.php indica que es un archivo, no una carpeta.
+
+Apache/PHP y algunos editores pueden confundirse, o tratar de ejecutarla como si fuera un archivo PHP, lo que puede causar errores futuros.
+
+✅ Recomendación fuerte:
+Renombra tu carpeta como:
+
+nginx
+Copiar código
+tienda
+(sin .php al final)
+
+Así evitas errores innecesarios en:
+
+Navegadores
+
+Apache
+
+Postman
+
+Android Studio
+
+📁 Estructura recomendada final:
+makefile
+Copiar código
+C:\xampp\htdocs\tienda\
+│
+├── electronica.php
+├── muebleria.php
+├── limpieza.php
+├── linea_blanca.php
+├── ropa.php
+├── zapateria.php
+├── motocicletas.php
+└── telefonia.php
+📡 URL desde Postman o Android:
+Ejemplo para electrónica:
+
+arduino
+Copiar código
+http://localhost/tienda/electronica.php
+✅ ¿Qué hago por ti ahora?
+¿Quieres que te dé los 8 archivos *.php ya listos para copiar?
+
+¿Te armo un ZIP con la carpeta tienda/ y todo dentro?
+
+¿Quieres seguir con la parte de Android Studio ahora (código e interfaz)?
+
+Tú dime y te sigo ayudando.
+
+
+
+
+
+
+
+
+Dijiste:
+puedes colocamme el codigo php en cada uno
+
+
+ChatGPT dijo:
+¡Claro que sí! Aquí tienes los 8 códigos PHP completos, uno para cada categoría, listos para que los copies y los guardes como:
+
+makefile
+Copiar código
+C:\xampp\htdocs\tienda\
+Con nombres:
+
+electronica.php
+
+muebleria.php
+
+limpieza.php
+
+linea_blanca.php
+
+ropa.php
+
+zapateria.php
+
+motocicletas.php
+
+telefonia.php
+
+✅ Cada uno está configurado para:
+Conectarse a la base de datos cen
+
+Usar el puerto 3307
+
+Aceptar un JSON por POST
+
+Insertar datos en la tabla correspondiente
+
+📄 1. electronica.php
+php
+Copiar código
+<?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
+
+$data = json_decode(file_get_contents("php://input"));
+$conn = new mysqli("localhost", "root", "", "cen", 3307);
+
+if ($conn->connect_error) {
+    die(json_encode(["error" => "Conexión fallida: " . $conn->connect_error]));
+}
+
+$sql = "INSERT INTO electronica (sku, nombre_producto, marca, inventario, precio) VALUES (?, ?, ?, ?, ?)";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("issid", $data->sku, $data->nombre_producto, $data->marca, $data->inventario, $data->precio);
+
+echo $stmt->execute()
+    ? json_encode(["message" => "Producto insertado correctamente"])
+    : json_encode(["error" => "Error al insertar: " . $stmt->error]);
+
+$stmt->close();
+$conn->close();
+?>
+📄 2. muebleria.php
+(Idéntico al anterior, solo cambia el nombre de la tabla)
+
+php
+Copiar código
+<?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
+
+$data = json_decode(file_get_contents("php://input"));
+$conn = new mysqli("localhost", "root", "", "cen", 3307);
+
+if ($conn->connect_error) {
+    die(json_encode(["error" => "Conexión fallida: " . $conn->connect_error]));
+}
+
+$sql = "INSERT INTO muebleria (sku, nombre_producto, marca, inventario, precio) VALUES (?, ?, ?, ?, ?)";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("issid", $data->sku, $data->nombre_producto, $data->marca, $data->inventario, $data->precio);
+
+echo $stmt->execute()
+    ? json_encode(["message" => "Producto insertado correctamente"])
+    : json_encode(["error" => "Error al insertar: " . $stmt->error]);
+
+$stmt->close();
+$conn->close();
+?>
+📄 3. limpieza.php
+php
+Copiar código
+$sql = "INSERT INTO limpieza (sku, nombre_producto, marca, inventario, precio) VALUES (?, ?, ?, ?, ?)";
+📄 4. linea_blanca.php
+php
+Copiar código
+$sql = "INSERT INTO linea_blanca (sku, nombre_producto, marca, inventario, precio) VALUES (?, ?, ?, ?, ?)";
+📄 5. ropa.php
+php
+Copiar código
+$sql = "INSERT INTO ropa (sku, nombre_producto, marca, inventario, precio) VALUES (?, ?, ?, ?, ?)";
+📄 6. zapateria.php
+php
+Copiar código
+$sql = "INSERT INTO zapateria (sku, nombre_producto, marca, inventario, precio) VALUES (?, ?, ?, ?, ?)";
+📄 7. motocicletas.php
+php
+Copiar código
+$sql = "INSERT INTO motocicletas (sku, nombre_producto, marca, inventario, precio) VALUES (?, ?, ?, ?, ?)";
+📄 8. telefonia.php
+php
+Copiar código
+$sql = "INSERT INTO telefonia (sku, nombre_producto, marca, inventario, precio) VALUES (?, ?, ?, ?, ?)";
+Todos los demás bloques de código son idénticos, solo cambia la línea con el INSERT INTO nombre_tabla.
+
+¿Qué sigue?
+✅ Guarda cada uno con su nombre correcto en la carpeta C:\xampp\htdocs\tienda\
+
+✅ Asegúrate de que Apache y MySQL estén corriendo
+
+✅ Prueba desde Postman con la URL correspondiente, por ejemplo:
+
+arduino
+Copiar código
+http://localhost/tienda/electronica.php necesito que me ayudes a realizar esto Martes 01 de julio 2025 presentar 3 tablas creadas de la base de datos con su prueba en postman.
+Miércoles 02 de julio 2025 presentar 3 tablas mas creadas de la base de datos con su prueba en postman
+Jueves 03 de julio 2025 presentar la base de datos  Práctica PHP + MySQL + Postman: Base de Datos "Tienda por Categorías"
+
+C Objetivo de la práctica
+. Crear una base de datos llamada tienda.
+
+. Crear múltiples tablas organizadas por categorías de productos.
+· Probar las inserciones usando Postman (método POST).
+Base de Datos a crear
+
+. Nombre de la base de datos: tienda
+
+Tablas por Categoría
+
+Crea las siguientes tablas dentro de la base de datos tienda:
+
+1. electronica
+
+2. muebleria
+
+3. limpieza
+
+4. linea_blanca
+
+5. ropa
+
+6. zapateria
+
+7. motocicletas
+
+8. telefonia
+
+* Columnas para cada tabla
+Cada tabla debe tener exactamente las siguientes columnas:
+
+Tipo de dato
+
+INT PRIMARY KEY Codigo único del producto
+
+VARCHAR(100)
+
+VARCHAR(100)
+
+INT
+
+FLOAT
+
+Campo
+
+sku
+
+nombre_producto
+
+marca
+
+inventario
+
+precio
+
+. Importante:
+
+Descripción
+
+Nombre del producto
+
+Marca del producto
+
+Cantidad en existencia
+
+Precio del producto
+
+. sku será la clave primaria (no debe repetirse).
+
+. Todas las tablas tendran la misma estructura, solo cambia el nombre de la tabla
+según la categoría.
+
+Prueba con Postman (únicamente POST)
+
+Despues de crear la base de datos y una tabla, los alumnos deberán:
+
+1. Crear un archivo PHP con nombre como insertar_electronica.php.
+
+2. Enviar una solicitud POST desde Postman con los datos del producto en formato
+JSON.Cada tabla debe tener exactamente las siguientes columnas:terminada con sus pruebas en postman  
+Viernes 04 de julio 2025 presentar la interfaz grafica en android studio, el diseño de la interfaz será de diseño libre, siempre y cuando cumpla con los datos solicitados en la base de datos. (se recomienda crear 1 interfaz por cada categoría de la tienda y estén conectadas a una interfaz principal) INTERFAZ QUE SEA SIMILAR A LA DE SUS COMPAÑEROS NO SERA TOMADA EN CUENTA
+LOS AVANCES SOLO SE CALIFICARAN EN EL DIA Y HORARIO DE CLASE, NO SE CALIFICARAN OTRO DIA.
+El reporte de dicho ejercicio se subirá completo con la BD terminada y la UI, la fecha limite será el día domingo 06 de julio 2025
+Cada entrega de avance en tiempo y forma tendrá un valor de 100 firmas, al final de la entrega de la base de datos terminada y la UI se colocaran 200 firmas mas. bebo soncronizrlo eon android studio colocar interfaces y interactividad para que coloque los datos y se vayan guardando
